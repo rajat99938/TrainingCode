@@ -1,0 +1,32 @@
+﻿@model List<string>
+
+<h2>Received Data:</h2>
+<ul id="data-list">
+
+</ul>
+
+<button id="load-data-btn" class="btn btn-primary">Load Data</button>
+<div id="data-container"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $.get('@Url.Action("GetData", "Home")', function(data) {
+            $.each(data, function(index, item) {
+                $('#data-list').append('<li>' + item + '</li>');
+            });
+        });
+
+       $('#load-data-btn').click(function() {
+            $.get('@Url.Action("GetDataOnClick", "Home")', function(data) {
+                $('#data-container').empty();
+                $.each(data, function(index, item) {
+                    $('#data-container').append('<p>' + item + '</p>');
+                });
+            });
+        });
+    });
+</script>
+
+
+

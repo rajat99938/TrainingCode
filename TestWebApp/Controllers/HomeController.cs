@@ -113,6 +113,27 @@ namespace TestWebApp.Controllers
             return Content("Registration successful!");
         }
 
+        [HttpGet]
+        public IActionResult GetData()
+        {
+            // Sample data
+            var data = new List<string> { "Item 1", "Item 2", "Item 3" };
+            return Json(data);
+        }
+
+        [HttpGet]
+        public IActionResult GetDataOnClick()
+        {
+            // Sample data
+            var data = new List<string> { "Item 4", "Item 5", "Item 6" };
+            return Json(data);
+        }
+
+        [HttpGet]
+        public IActionResult GetDataView()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
