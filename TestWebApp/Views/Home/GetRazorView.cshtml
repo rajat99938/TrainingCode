@@ -1,0 +1,26 @@
+﻿@*@model TestWebApp.Models.RazorViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details</title>
+</head>
+<body>
+    <h1>User Details</h1>
+
+    <p>User ID: @Model.Id</p>
+    <p>User Name: @Model.Name</p>
+</body>
+</html>*@
+
+
+@model TestWebApp.Models.RazorViewLoopModel
+
+<h2>User List</h2>
+
+<ul>
+    @foreach (var x in Model.Users)
+    {
+        <li>@x</li>
+    }
+</ul>

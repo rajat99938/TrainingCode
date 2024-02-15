@@ -8,6 +8,9 @@
 <button id="load-data-btn" class="btn btn-primary">Load Data</button>
 <div id="data-container"></div>
 
+<button id="ajax-data-btn" class="btn btn-primary">Load Data</button>
+<div id="dataContainer"></div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -23,6 +26,24 @@
                 $.each(data, function(index, item) {
                     $('#data-container').append('<p>' + item + '</p>');
                 });
+            });
+        });
+
+        $('#ajax-data-btn').click(function() {
+            $.ajax({
+                url: "https://reqres.in/api/users?page=2", // URL of the server-side script to fetch data from
+                type: "GET", // HTTP method (GET or POST)
+                dataType: "json", // Expected data type of the response
+                success: function(data) {
+                    // Function to be executed if the request is successful
+                    // Update the HTML content with the received data
+                    $("#dataContainer").html("Data: " + JSON.stringify(data.data));
+                },
+                error: function(xhr, status, error) {
+                    // Function to be executed if the request fails
+                    console.error("Error:", error); // Log the error to the console
+                    $("#dataContainer").html("Failed to fetch data"); // Display an error message to the user
+                }
             });
         });
     });

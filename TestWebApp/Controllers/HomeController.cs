@@ -135,6 +135,19 @@ namespace TestWebApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult GetRazorView()
+        {
+            //var user = new RazorViewModel { Id = 1, Name = "John Doe" };
+            //return View(user);
+
+            var model = new RazorViewLoopModel
+            {
+                Users = new List<string> { "User1", "User2", "User3" }
+            };
+            return View(model);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,0 +1,70 @@
+﻿    @model List<userLoginDetails_result>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                 <h2>Users</h2>
+                <ul>
+                    @foreach (var user in Model)
+                    {
+                        @*<li>@user.username</li>*@
+                         <li>
+                        @user.username
+                        <form asp-controller="User" asp-action="DeleteUser" method="post">
+                            <input type="hidden" name="userId" value="@user.uid" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </li>
+                    }
+                </ul>
+            </div>
+             <div class="col-md-6">
+                 <h2>Add New User</h2>
+                  <form asp-controller="User" asp-action="AddUser" method="post">
+                      @*<form id="myForm" method="post">*@
+                    <div class="form-group">
+                        <label for="username"></label>
+                        <input type="text" id="username" name="username" class="form-control" />
+                        <span id="err-username" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"></label>
+                        <input type="password" id="password" name="password" class="form-control" />
+                        <span id="err-password" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@*
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect data from form fields
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Send AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/User/AddUser');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response
+                    console.log('Data successfully sent to the server.');
+                } else {
+                    // Handle error response
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(JSON.stringify({ username: username, password: password }));
+        });
+</script>*@
+
+
+
+
+

@@ -75,4 +75,15 @@ namespace TestWebApp.Models
         [Range(18, 120, ErrorMessage = "Age must be between 18 and 120")]
         public int Age { get; set; }
     }
+
+    public class RazorViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class RazorViewLoopModel
+    {
+        public List<string> Users { get; set; }
+    }
 }
