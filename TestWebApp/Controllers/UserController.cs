@@ -27,7 +27,8 @@ namespace TestWebApp.Controllers
         [HttpPost]
         public IActionResult DeleteUser(int userId)
         {
-            // Find the user by ID
+
+            // Find the user by ID 
             var user = _context.userLoginDetails.FirstOrDefault(u => u.uid == userId);
             if (user == null)
             {
@@ -45,31 +46,31 @@ namespace TestWebApp.Controllers
             return RedirectToAction("UserView");
         }
 
-        [HttpPost]
-        public IActionResult AddUser(string username, string password)
-        {
-            var user = new userLoginDetails_result
-            {
-                username = username,
-                password = password
-            };
-            // Add the user to the context
-            _context.userLoginDetails.Add(user);
-            // Save changes to the database
-            _context.SaveChanges();
-
-            return RedirectToAction("UserView");
-        }
-
         //[HttpPost]
-        //public IActionResult AddUser([FromBody] userLoginDetails_result obj)
+        //public IActionResult AddUser(string username, string password)
         //{
+        //    var user = new userLoginDetails_result
+        //    {
+        //        username = username,
+        //        password = password
+        //    };
         //    // Add the user to the context
-        //    _context.userLoginDetails.Add(obj);
+        //    _context.userLoginDetails.Add(user);
         //    // Save changes to the database
         //    _context.SaveChanges();
 
         //    return RedirectToAction("UserView");
         //}
+
+        [HttpPost]
+        public IActionResult AddUser([FromBody] userLoginDetails_result obj)
+        {
+            // Add the user to the context
+            _context.userLoginDetails.Add(obj);
+            // Save changes to the database
+            _context.SaveChanges();
+
+            return RedirectToAction("UserView");
+        }
     }
 }
