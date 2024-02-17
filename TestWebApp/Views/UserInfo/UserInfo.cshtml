@@ -1,0 +1,27 @@
+﻿@model List<UserPersonalInformationModel>
+
+<div>
+       <table class="table">
+           <thead>
+               <tr>
+                    <td>Id</td>
+                   <td>First Name</td>
+                   <td>Last Name</td>
+                   <td>Mobile Number</td>
+                   <td>Email</td>
+                   </tr>
+           </thead>
+           <tbody>
+        @foreach (var user in Model)
+        {
+                <tr>
+                    <td>@user.UPI_id</td>
+                   <td>@user.UPI_firstname</td>
+                   <td>@user.UPI_lastname</td>
+                   <td>@user.UPI_mobileNumber</td>
+                   <td>@user.UPI_email</td>
+                </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -13,6 +13,8 @@ namespace TestWebApp.Data
         // DbSet properties for entity classes
         public DbSet<userLoginDetails_result> userLoginDetails { get; set; }
 
+        public DbSet<UserPersonalInformationModel> userPersonalInformation { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<userLoginDetails_result>().HasNoKey();
