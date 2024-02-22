@@ -1,7 +1,33 @@
 ﻿@model List<UserPersonalInformationModel>
 
-<div>
-       <table class="table">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 id="form-update-header">Add New User Information</h2>
+             <form id="myForm" method="post">
+                    <div class="form-group">
+                        <label for="UPI_firstname"></label>
+                        <input type="text" id="UPI_firstname" name="UPI_firstname" class="form-control" placeholder="First Name"/>
+                        <input type="hidden" id="UPI_id" name="UPI_id" />
+                    </div>
+                    <div class="form-group">
+                        <label for="UPI_lastname"></label>
+                        <input type="text" id="UPI_lastname" name="UPI_lastname" class="form-control" placeholder="Last Name"/>
+                    </div>
+                     <div class="form-group">
+                        <label for="UPI_mobileNumber"></label>
+                        <input type="text" id="UPI_mobileNumber" name="UPI_mobileNumber" class="form-control" placeholder="Mobile Number"/>
+                    </div>
+                     <div class="form-group">
+                        <label for="UPI_email"></label>
+                        <input type="text" id="UPI_email" name="UPI_email" class="form-control" placeholder="Email"/>
+                    </div>
+                    <button id="form-submit-id" style="margin-top:10px;" type="submit" class="btn btn-primary">Submit</button>
+                    <button id="form-update-id" onclick="handleFormUpdate()" style="margin-top:10px;display:none" type="button" class="btn btn-primary">Update</button>
+                </form>
+        </div>
+        <div class="col-md-6">
+             <table class="table">
            <thead>
                <tr>
                     <td>Id</td>
@@ -9,19 +35,133 @@
                    <td>Last Name</td>
                    <td>Mobile Number</td>
                    <td>Email</td>
+                   <td>Action</td>
                    </tr>
            </thead>
            <tbody>
         @foreach (var user in Model)
         {
                 <tr>
-                    <td>@user.UPI_id</td>
+                   <td>@user.UPI_id</td>
                    <td>@user.UPI_firstname</td>
                    <td>@user.UPI_lastname</td>
                    <td>@user.UPI_mobileNumber</td>
                    <td>@user.UPI_email</td>
+                   <td>
+                       <div style="display:flex; justify-content: space-between">
+                           <input type="hidden" id="upi_id_@user.UPI_id" value="@user.UPI_id"> 
+                           <input type="hidden" id="firstname_id_@user.UPI_id" value="@user.UPI_firstname"> 
+                           <input type="hidden" id="lastname_id_@user.UPI_id" value="@user.UPI_lastname"> 
+                           <input type="hidden" id="mobilenumber_id_@user.UPI_id" value="@user.UPI_mobileNumber"> 
+                           <input type="hidden" id="email_id_@user.UPI_id" value="@user.UPI_email"> 
+                           <button onclick="handleUserInfoUpdate('@user.UPI_id', '@user.UPI_firstname', '@user.UPI_lastname','@user.UPI_mobileNumber', '@user.UPI_email')" id="user_update_@user.UPI_id" class="btn btn-primary">Update</button>
+                           <button id="user_delete_@user.UPI_id" class="btn btn-primary">Delete</button>
+                       </div>
+                   </td>
                 </tr>
         }
         </tbody>
     </table>
+        </div>
+    </div>
 </div>
+<script>
+      document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            // Collect data from form fields
+            var firstname = document.getElementById('UPI_firstname').value;
+            var lastname = document.getElementById('UPI_lastname').value;
+            var mobileNumber = document.getElementById('UPI_mobileNumber').value;
+            var email = document.getElementById('UPI_email').value;
+
+            // Send AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/UserInfo/AddUserInfo');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response
+                    console.log('Data successfully sent to the server.');
+                } else {
+                    // Handle error response
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(JSON.stringify({ UPI_firstname: firstname, UPI_lastname: lastname, UPI_mobileNumber: mobileNumber, UPI_email: email }));
+        });
+
+        //Click Event to delete the user row
+        document.getElementById('user_delete').addEventListener('click', function(event){
+            event.preventDefault();
+            var upi_id = document.getElementById('upi_id').value;
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/UserInfo/DeleteUserInfo');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+             xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response
+                    console.log('Data successfully sent to the server.');
+                } else {
+                    // Handle error response
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(JSON.stringify({UPI_id: upi_id}));
+        })
+
+        //Click Event to fill data input fields with data for update 
+        //document.getElementById('user_update').addEventListener('click', function(event){
+        //    event.preventDefault();
+        //    var upi_id = document.getElementById('upi_id').value;
+        //    var firstname_id = document.getElementById('firstname_id').value;
+        //    var lastname_id = document.getElementById('lastname_id').value;
+        //    var mobilenumber_id = document.getElementById('mobilenumber_id').value;
+        //    var email_id = document.getElementById('email_id').value;
+
+        //    document.getElementById('UPI_firstname').value = firstname_id
+        //    document.getElementById('UPI_lastname').value = lastname_id
+        //    document.getElementById('UPI_mobileNumber').value = mobilenumber_id
+        //    document.getElementById('UPI_email').value = email_id
+
+        //})
+
+        function handleUserInfoUpdate(id,firstname,lastname,mobilenumber,email){
+            event.preventDefault();
+            document.getElementById('UPI_id').value = id;
+            document.getElementById('UPI_firstname').value = firstname;
+            document.getElementById('UPI_lastname').value = lastname;
+            document.getElementById('UPI_mobileNumber').value = mobilenumber;
+            document.getElementById('UPI_email').value = email;
+            document.getElementById('form-update-header').innerText = "Update User Information";
+            document.getElementById('form-submit-id').style.display = 'none';
+            document.getElementById('form-update-id').style.display = 'inline';
+        }
+
+        function handleFormUpdate(){
+            event.preventDefault();
+            var id = document.getElementById('UPI_id').value
+            var firstname = document.getElementById('UPI_firstname').value 
+            var lastname = document.getElementById('UPI_lastname').value
+            var mobilenumber = document.getElementById('UPI_mobileNumber').value
+            var email = document.getElementById('UPI_email').value
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/UserInfo/UpdateUserInfo');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+             xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Handle success response
+                    console.log('Data successfully sent to the server.');
+                    window.location.reload();
+                } else {
+                    // Handle error response
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+            xhr.send(JSON.stringify({UPI_id: id, UPI_firstname: firstname, UPI_lastname: lastname, UPI_mobileNumber: mobilenumber, UPI_email: email }));
+        }
+
+
+</script>
+
